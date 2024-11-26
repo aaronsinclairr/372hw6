@@ -1,0 +1,4 @@
+"0",""
+"0","ggplot(age_analysis, aes(x = avg_age, y = avg_crown_diameter)) +"
+"0","  geom_point() + geom_smooth(method = ""lm"", col = ""red"") + labs(title = ""Age vs Crown Diameter"", x = ""Average Age (Years)"", y = ""Average Crown Diameter (m)"") +"
+"0","  theme_minimal()"

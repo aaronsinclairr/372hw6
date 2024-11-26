@@ -1,0 +1,4 @@
+"0","# extract the genus from the scientific name"
+"0","nc_sc_data <- nc_sc_data |>"
+"0","  mutate(genus = str_extract(ScientificName, ""^[^ ]+""))"
+"0",""

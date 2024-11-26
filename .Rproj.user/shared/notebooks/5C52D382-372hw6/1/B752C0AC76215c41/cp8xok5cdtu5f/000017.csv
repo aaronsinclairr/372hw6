@@ -1,0 +1,7 @@
+"0","# counting records by state"
+"0","state_count = data |>"
+"0","  group_by(state) |>"
+"0","  summarise(record_count = n()) |>"
+"0","  arrange(desc(record_count))"
+"0",""
+"0","print(state_count)"

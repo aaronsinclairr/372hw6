@@ -1,0 +1,141 @@
+---
+title: "372hw6"
+format: html
+editor: visual
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(ggthemes)
+```
+
+```{r}
+data = read_csv("TS3_Raw_tree_data.csv")
+head(data)
+```
+
+```{r}
+#regex code first captures everything before the first comma in the City string and then captures the two-letter state abbreviation at the end of the City string (most regex code has been cobbled together from websites like stackoverflow and datacamp etc.. given I was rather unfamiliar with this type of coding and then I used CGPT to help explain what the code does - I feel this type of learning thats supported by CGPT was a legitimate use of the software as discussed in class))
+data = data |>
+  mutate(city_name = str_extract(City, "^[^,]+"),
+    state = str_extract(City, "[A-Z]{2}$")
+    
+  )
+```
+
+```{r}
+# counting records by state
+state_count = data |>
+  group_by(state) |>
+  summarise(record_count = n()) |>
+  arrange(desc(record_count))
+
+print(state_count)
+
+# creating a bar graph to visually represent data 
+ggplot(state_counts, aes(x = reorder(state, -record_count), y = record_count)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(title = "Sample Sizes by State", x = "State", y = "Number of Records") +
+  theme_minimal()
+```
+
+```{r}
+# filtering for carolinas - %in% checks if value is present (c() concatenates into a vectore)
+nc_sc_data = data |>
+  filter(state %in% c("NC", "SC"))
+
+# identifying cities with data
+nc_sc_cities = nc_sc_data |>
+  distinct(city_name)
+
+print(nc_sc_cities)
+```
+
+```{r}
+# extract the genus from the scientific name
+nc_sc_data <- nc_sc_data |>
+  mutate(genus = str_extract(ScientificName, "^[^ ]+"))
+
+```
+
+```{r}
+# calculating the average crown diameter by genus
+genus_avg_crown = nc_sc_data |>
+  group_by(genus) |>
+  summarise(avg_crown_diameter = mean(`AvgCdia (m)`, na.rm = TRUE)) |>
+  arrange(desc(avg_crown_diameter))
+
+print(genus_avg_crown)
+
+# indetifying genus with largest crown diameter - I found the slicemax function from datacamp which finds largest observation in each group, for some reason I couldn't get summarize to work here.
+largest_crown = genus_avg_crown |>
+  slice_max(order_by = avg_crown_diameter, n = 1)
+
+print(largest_crown)
+
+```
+
+```{r}
+# to find fastest growing tree i will compare the crown diamter to age ratio
+
+fastest_growing = nc_sc_data |>
+  filter(!is.na(Age)) |>
+  mutate(crown_to_age_ratio = `AvgCdia (m)` / Age) |>
+  group_by(genus) |>
+  summarise(avg_ratio = mean(crown_to_age_ratio, na.rm = TRUE)) |>
+  arrange(desc(avg_ratio))
+
+print(fastest_growing)
+```
+
+```{r}
+# extra credit part 3, I will extract how many species there are = regex code first extracts the second word in the scientific name (the species) then matches and removes unnecessary parts of the species name 
+
+nc_sc_data = nc_sc_data |>
+  mutate(species = str_extract(ScientificName, "^\\w+\\s(\\w+)"),
+    species_clean = str_remove_all(species, "(var\\.|x|‘.*’).*")
+  )
+
+# here i count species per genus
+species_count = nc_sc_data |>
+  group_by(genus) |>
+  summarise(species_count = n_distinct(species_clean))
+
+print(species_count)
+```
+
+```{r}
+# extra credit part 1, average diamter
+age_analysis = nc_sc_data |> 
+  group_by(genus) |> 
+summarise(avg_age = mean(Age, na.rm = TRUE), avg_crown_diameter = mean(`AvgCdia (m)`, na.rm = TRUE))
+
+print(age_analysis)
+#- some of this code (only the aesthetic stuff was taken from chatgpt and modified to fit my own code - I just did this to make the graph look pretty/for personal satisfaction as I just wanted to take my visual to the next level so to speak)
+
+ggplot(age_analysis, aes(x = avg_age, y = avg_crown_diameter)) +
+  geom_point() + geom_smooth(method = "lm", col = "red") + labs(title = "Age vs Crown Diameter", x = "Average Age (Years)", y = "Average Crown Diameter (m)") +
+  theme_minimal()
+```
