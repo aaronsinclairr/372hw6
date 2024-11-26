@@ -1,3 +1,4 @@
+"0","#- some of this code (only the aesthetic stuff was taken from chatgpt and modified to fit my own code - I just did this to make the graph look pretty/for personal satisfaction as I just wanted to take my visual to the next level so to speak)"
 "0",""
 "0","ggplot(age_analysis, aes(x = avg_age, y = avg_crown_diameter)) +"
 "0","  geom_point() + geom_smooth(method = ""lm"", col = ""red"") + labs(title = ""Age vs Crown Diameter"", x = ""Average Age (Years)"", y = ""Average Crown Diameter (m)"") +"

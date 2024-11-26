@@ -1,6 +1,6 @@
 "0",""
-"0","# creating a bar graph to visually represent data"
-"0","ggplot(state_counts, aes(x = reorder(state, -record_count), y = record_count)) +"
+"0","# creating a bar graph to visually represent data "
+"0","ggplot(state_count, aes(x = reorder(state, -record_count), y = record_count)) +"
 "0","  geom_bar(stat = ""identity"", fill = ""skyblue"") +"
 "0","  labs(title = ""Sample Sizes by State"", x = ""State"", y = ""Number of Records"") +"
 "0","  theme_minimal()"

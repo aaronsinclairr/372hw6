@@ -1,3 +1,0 @@
-"0","data = read_csv(""charlotte_home_sales.csv"")"
-"2","Error: 'charlotte_home_sales.csv' does not exist in current working directory ('/Users/aaronsinclair/Documents').
-"

@@ -1,4 +1,0 @@
-"0","data = data |>"
-"0","  mutate(city_name = str_extract(City, ""^[^,]+""),"
-"0","    state = str_extract(City, ""[A-Z]{2}$"")"
-"0","  )"

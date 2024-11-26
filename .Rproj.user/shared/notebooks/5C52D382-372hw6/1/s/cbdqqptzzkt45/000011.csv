@@ -1,4 +1,4 @@
-"0","# filtering for carolinas"
+"0","# filtering for carolinas - %in% checks if value is present (c() concatenates into a vectore)"
 "0","nc_sc_data = data |>"
 "0","  filter(state %in% c(""NC"", ""SC""))"
 "0",""

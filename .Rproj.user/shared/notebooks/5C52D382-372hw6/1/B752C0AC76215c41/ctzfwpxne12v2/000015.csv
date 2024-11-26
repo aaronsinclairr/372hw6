@@ -1,6 +1,0 @@
-"0",""
-"0","# indetifying genus with largest crown diameter"
-"0","largest_crown = genus_avg_crown |>"
-"0","  slice_max(order_by = avg_crown_diameter, n = 1)"
-"0",""
-"0","print(largest_crown)"

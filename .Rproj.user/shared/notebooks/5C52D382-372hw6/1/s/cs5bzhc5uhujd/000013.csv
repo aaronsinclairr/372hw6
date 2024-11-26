@@ -1,0 +1,6 @@
+"0","#regex code first captures everything before the first comma in the City string and then captures the two-letter state abbreviation at the end of the City string (most regex code has been cobbled together from websites like stackoverflow and datacamp etc.. given I was rather unfamiliar with this type of coding and then I used CGPT to help explain what the code does - I feel this type of learning thats supported by CGPT was a legitimate use of the software as discussed in class))"
+"0","data = data |>"
+"0","  mutate(city_name = str_extract(City, ""^[^,]+""),"
+"0","    state = str_extract(City, ""[A-Z]{2}$"")"
+"0","    "
+"0","  )"
